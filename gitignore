@@ -1,0 +1,21 @@
+# Config & Credentials
+config.json
+.env
+.env.local
+*.key
+*.pem
+
+# Backups
+*.backup
+*.bak
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node/Python
+node_modules/
+__pycache__/
+*.pyc
+venv/

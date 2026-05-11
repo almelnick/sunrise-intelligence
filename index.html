@@ -3,101 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sunrise Intelligence Pro — Dashboard Transversal</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<title>Sunrise Intelligence Pro</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-:root{
-  --primary:#F97316;
-  --dark:#0F0F0F;
-  --light:#FAFAFA;
-  --text:#1a1a1a;
-  --border:#e8e8e8;
-  --success:#10b981;
-  --warning:#f59e0b;
-  --danger:#ef4444;
-  --ecommerce:#2563eb;
-  --leadgen:#8b5cf6;
-}
+:root{--primary:#F97316;--dark:#0F0F0F;--text:#1a1a1a;--border:#e8e8e8;--success:#10b981;--warning:#f59e0b}
 
 body{font-family:'Space Grotesk',sans-serif;background:#F5F5F5;color:var(--text);font-size:13px;height:100vh;overflow:hidden}
 .app{display:flex;height:100vh}
-
-.sb{width:240px;flex-shrink:0;background:var(--dark);color:#fff;display:flex;flex-direction:column;overflow:hidden;border-right:1px solid #222}
+.sb{width:240px;flex-shrink:0;background:var(--dark);color:#fff;display:flex;flex-direction:column;overflow:hidden}
 .sb-header{padding:16px;border-bottom:1px solid #333}
 .sb-logo{font-size:13px;font-weight:700;color:var(--primary);letter-spacing:1px}
-.sb-sub{font-size:9px;color:#999;margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
-
+.sb-sub{font-size:9px;color:#999;margin-top:4px;text-transform:uppercase}
 .sb-client-selector{padding:12px;border-bottom:1px solid #333;display:flex;flex-direction:column;gap:8px}
-.sb-client-selector label{font-size:9px;color:#666;text-transform:uppercase;letter-spacing:.5px}
-.sb-client-selector select{background:#1a1a1a;color:#fff;border:1px solid #333;padding:8px;border-radius:4px;font-size:11px;cursor:pointer}
-
+.sb-client-selector label{font-size:9px;color:#666;text-transform:uppercase}
+.sb-client-selector select{background:#1a1a1a;color:#fff;border:1px solid #333;padding:8px;border-radius:4px;font-size:11px}
 .sb-nav{display:flex;border-bottom:1px solid #333}
-.sb-nav-btn{flex:1;padding:10px;border:none;background:none;cursor:pointer;font-size:10px;color:#666;transition:.2s;text-align:center;border-bottom:2px solid transparent;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.sb-nav-btn{flex:1;padding:10px;border:none;background:0;cursor:pointer;font-size:10px;color:#666;transition:.2s;text-align:center;border-bottom:2px solid transparent;font-weight:600;text-transform:uppercase}
 .sb-nav-btn:hover{color:#999}
 .sb-nav-btn.a{color:var(--primary);border-bottom-color:var(--primary)}
+.btn-create{padding:8px;background:var(--primary);color:#fff;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
 
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#fff}
-.topbar{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:#fff}
-.topbar-left{display:flex;align-items:center;gap:16px}
-.topbar-title{font-size:16px;font-weight:700;color:var(--text)}
-.topbar-badge{font-size:9px;padding:4px 10px;border-radius:12px;background:#f0f0f0;color:#666;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-.topbar-badge.ecommerce{background:#dbeafe;color:#1e40af}
-.topbar-badge.leadgen{background:#ede9fe;color:#6d28d9}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.topbar-title{font-size:16px;font-weight:700}
+.topbar-badge{font-size:9px;padding:4px 10px;border-radius:12px;background:#dbeafe;color:#1e40af}
 
-.tabs{display:flex;padding:0 20px;border-bottom:1px solid var(--border);gap:2px;flex-shrink:0;background:#fff}
-.tab{padding:12px 16px;border:none;background:none;cursor:pointer;font-size:11px;color:#999;border-bottom:2px solid transparent;transition:.2s;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
-.tab:hover{color:var(--text)}
+.tabs{display:flex;padding:0 20px;border-bottom:1px solid var(--border);gap:2px;flex-shrink:0}
+.tab{padding:12px 16px;border:none;background:0;cursor:pointer;font-size:11px;color:#999;border-bottom:2px solid transparent;transition:.2s;font-weight:600;text-transform:uppercase}
 .tab.a{color:var(--primary);border-bottom-color:var(--primary)}
 
 .content{flex:1;overflow-y:auto;padding:20px;background:#FAFAFA}
-.content-section{display:none}
-.content-section.a{display:block}
-
 .card{background:#fff;border-radius:8px;padding:16px;margin-bottom:16px;border:1px solid var(--border)}
 .card-title{font-size:11px;text-transform:uppercase;color:#666;letter-spacing:.5px;margin-bottom:12px;font-weight:700}
 
 .kpis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
 .kpi{background:#fff;border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
-.kpi-label{font-size:9px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi-label{font-size:9px;color:#999;text-transform:uppercase;margin-bottom:6px}
 .kpi-value{font-size:24px;font-weight:700;color:var(--text);line-height:1}
-.kpi-subtitle{font-size:9px;color:#bbb;margin-top:6px}
 
 .form-group{margin-bottom:14px}
-.form-group label{display:block;font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;font-weight:600}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;font-size:11px;font-family:'IBM Plex Mono',monospace;background:#fafafa}
-.form-group textarea{resize:vertical;min-height:80px}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--primary);background:#fff}
+.form-group label{display:block;font-size:10px;color:#666;text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;font-size:11px;background:#fafafa}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--primary);background:#fff}
 
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .checkbox-group{display:flex;flex-direction:column;gap:8px}
-.checkbox-group label{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text);cursor:pointer;font-weight:500}
+.checkbox-group label{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text);cursor:pointer}
 
 .alert{padding:12px;border-radius:6px;font-size:11px;margin-bottom:12px;border-left:3px solid;display:flex;gap:10px}
-.alert-success{background:#ecfdf5;border-color:var(--success);color:#065f46}
 .alert-warning{background:#fffbf0;border-color:var(--warning);color:#92400e}
 
-.btn{border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;transition:.2s;letter-spacing:.5px}
+.btn{border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;transition:.2s}
 .btn-primary{background:var(--primary);color:#fff}
 .btn-primary:hover{background:#ea6c0a}
 .btn-primary:disabled{background:#ccc;cursor:not-allowed}
-.btn-secondary{background:#f0f0f0;color:var(--text)}
-.btn-secondary:hover{background:#e0e0e0}
-
-.table{width:100%;border-collapse:collapse;font-size:11px;margin-top:12px}
-.table th{text-align:left;padding:10px;background:#f9f9f9;border-bottom:1px solid var(--border);font-weight:600;color:#666;text-transform:uppercase;letter-spacing:.5px}
-.table td{padding:10px;border-bottom:1px solid var(--border)}
-
-.save-indicator{position:fixed;bottom:20px;right:20px;padding:12px 16px;background:var(--success);color:#fff;border-radius:6px;font-size:11px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:1000}
-.save-indicator.show{opacity:1;pointer-events:auto}
 
 .account-tag{background:var(--primary);color:#fff;padding:8px 12px;border-radius:4px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:8px}
-.account-tag button{background:rgba(255,255,255,0.3);border:none;color:#fff;padding:2px 6px;border-radius:2px;cursor:pointer;font-size:10px}
 
 .content::-webkit-scrollbar{width:4px}
-.content::-webkit-scrollbar-track{background:transparent}
 .content::-webkit-scrollbar-thumb{background:#ddd;border-radius:2px}
 </style>
 </head>
@@ -112,9 +77,8 @@ body{font-family:'Space Grotesk',sans-serif;background:#F5F5F5;color:var(--text)
 
     <div class="sb-client-selector">
       <label>Cliente</label>
-      <select id="clientSelector" onchange="selectClient(this.value)">
-        <option value="">— Selecciona cliente —</option>
-      </select>
+      <select id="clientSelector" onchange="selectClient(this.value)"></select>
+      <button class="btn-create" onclick="createNewClient()">➕ Crear cliente</button>
     </div>
 
     <div class="sb-nav">
@@ -136,100 +100,15 @@ body{font-family:'Space Grotesk',sans-serif;background:#F5F5F5;color:var(--text)
   </div>
 </div>
 
-<div class="save-indicator" id="saveIndicator">✓ Guardado</div>
-
 <script>
 // ═══════════════════════════════════════════════════════════════
-// CLIENTS & TEMPLATES
+// CONFIG & STATE
 // ═══════════════════════════════════════════════════════════════
 
-const CLIENTS_BASE = [
-  { id: "paimun", name: "Paimun Vida Natural", vertical: "ecommerce" },
-  { id: "mrclick", name: "MrClick Chile", vertical: "ecommerce" },
-  { id: "skinology", name: "Skinology", vertical: "ecommerce" },
-  { id: "holacalm", name: "HolaCalm", vertical: "ecommerce" },
-  { id: "pdpaola", name: "PDPAOLA Chile", vertical: "ecommerce" },
-  { id: "herencia", name: "Herencia Familiar", vertical: "ecommerce" },
-  { id: "superzoo", name: "Superzoo", vertical: "leadgen" },
-  { id: "nahmias", name: "Constructora Nahmias", vertical: "leadgen" },
-  { id: "mellow", name: "Mellow", vertical: "leadgen" },
-  { id: "freshwater", name: "Freshwater Solutions", vertical: "ecommerce" },
-  { id: "morenclinica", name: "Clínica Morén", vertical: "leadgen" },
-]
-
-const WINDSOR_ACCOUNTS = {
-  meta: [
-    { id: "1727276644825511", name: "Suzuval" },
-    { id: "797882298782641", name: "Skinology Tarjeta Credito" },
-    { id: "1256044226296652", name: "MOREN" },
-    { id: "813026917391615", name: "Cuenta Meta Ad de Inmobiliaria Nahmias" },
-    { id: "811969909144405", name: "CP - Mr Click Chile" },
-    { id: "1996085000888457", name: "PDPAOLA CHILE" },
-    { id: "1071918593195612", name: "EBICIS" },
-    { id: "34866045836344134", name: "ANDA.CL" }
-  ],
-  google_ads: [
-    { id: "349-313-2594", name: "ANDA.CL" },
-    { id: "700-007-5174", name: "SuperZoo" },
-    { id: "634-322-0777", name: "Superpet" },
-    { id: "755-986-1786", name: "Skinology" },
-    { id: "464-695-8751", name: "Pro-TG" },
-    { id: "669-900-7142", name: "RUPANCO" },
-    { id: "272-756-1282", name: "Mellow Bakery" },
-    { id: "598-125-8635", name: "Suzuval" },
-    { id: "812-233-9943", name: "Constructora Nahmias" },
-    { id: "804-295-7748", name: "PDPAOLA CHILE" },
-    { id: "272-678-5242", name: "Suzuval / RAC" },
-    { id: "748-324-0756", name: "CLINICA MOREN" },
-    { id: "167-680-2342", name: "Suzuval / Camiones" },
-    { id: "771-109-1192", name: "PAIMUN" }
-  ],
-  ga4: [
-    { id: "435228058", name: "Landing BD390" },
-    { id: "440386782", name: "Nahmias Sitio Web" },
-    { id: "440397906", name: "Landing BD390.cl" },
-    { id: "486664540", name: "Concesionaria Suzuval" },
-    { id: "499054168", name: "camiones.suzuval.cl" },
-    { id: "492235909", name: "Suzuval 0 KM" },
-    { id: "510682540", name: "clinicamoren.cl" },
-    { id: "374846844", name: "Superpet | Website - GA4" },
-    { id: "344613435", name: "Super Zoo CL" },
-    { id: "280995331", name: "Mr Click Chile - GA4" },
-    { id: "381376036", name: "Constructora Rupanco - GA4" },
-    { id: "426805145", name: "skinology.cl" },
-    { id: "460789793", name: "Anda" }
-  ]
+let WINDSOR_CONFIG = {
+  api_key: null,
+  base_url: "https://api.windsor.ai/v1"
 }
-
-const PROFILE_TEMPLATE_ECOMMERCE = {
-  name: "",
-  vertical: "ecommerce",
-  kpis: { primary: "ROAS", cpa_max: 30, roas_min: 4.0, margin_target: 65, repeat_rate_target: 20, budget_monthly: 5000 },
-  ecommerce: { cogs_products: { "producto_1": 10 }, shipping_avg: 8, return_rate: 5 },
-  accounts: { meta: { account_id: null, account_name: null }, google_ads: { account_id: null, account_name: null }, ga4: { account_id: null, account_name: null }, woocommerce: { shop_url: null, api_key: null } },
-  extraction: { enabled: false, metrics: { meta: { spend: true, conversions: true, revenue: true, ctr: false, cpc: false, reach: false, engagement: false }, google: { spend: true, conversions: true, ctr: false, cpc: false, impressions: false }, ga4: { sessions: true, conversion_rate: true, users: false, bounce_rate: false }, woocommerce: { orders: true, revenue: true, aov: true, top_products: false, repeat_rate: false } }, last_update: null, data: {} },
-  data_sources: ["meta", "google_ads", "ga4", "woocommerce"],
-  business_rules: { alert_if_roas_below: 4.0, alert_if_cpa_above: 30, seasonal_months: ["Dec", "Jan", "Feb"], max_daily_budget: 150 },
-  preferences: { report_frequency: "weekly", language: "es", timezone: "America/Santiago" },
-  notes: ""
-}
-
-const PROFILE_TEMPLATE_LEADGEN = {
-  name: "",
-  vertical: "leadgen",
-  kpis: { primary: "CPA", cpa_max: 25, lead_value_avg: 150, closing_rate: 12, budget_monthly: 3000 },
-  leadgen: { sales_cycle_days: 30, closing_rate: 12, lead_quality_score_target: 75 },
-  accounts: { meta: { account_id: null, account_name: null }, google_ads: { account_id: null, account_name: null }, ga4: { account_id: null, account_name: null }, woocommerce: null },
-  extraction: { enabled: false, metrics: { meta: { spend: true, conversions: true, revenue: false, ctr: false, cpc: false, reach: false, engagement: false }, google: { spend: true, conversions: true, ctr: false, cpc: false, impressions: false }, ga4: { sessions: true, conversion_rate: true, users: false, bounce_rate: false }, woocommerce: null }, last_update: null, data: {} },
-  data_sources: ["meta", "google_ads", "ga4"],
-  business_rules: { alert_if_cpa_above: 25, alert_if_closing_rate_below: 10, seasonal_months: [], max_daily_budget: 100 },
-  preferences: { report_frequency: "weekly", language: "es", timezone: "America/Santiago" },
-  notes: ""
-}
-
-// ═══════════════════════════════════════════════════════════════
-// STATE & STORAGE
-// ═══════════════════════════════════════════════════════════════
 
 let state = {
   nav: "dashboard",
@@ -238,18 +117,129 @@ let state = {
   profiles: {}
 }
 
+// ═══════════════════════════════════════════════════════════════
+// TEMPLATES
+// ═══════════════════════════════════════════════════════════════
+
+const PROFILE_TEMPLATE_ECOMMERCE = {
+  name: "",
+  vertical: "ecommerce",
+  kpis: { primary: "ROAS", cpa_max: 30, roas_min: 4.0, margin_target: 65, repeat_rate_target: 20, budget_monthly: 5000 },
+  ecommerce: { cogs_products: { "producto_1": 10 }, shipping_avg: 8, return_rate: 5 },
+  accounts: { meta: { account_id: null, account_name: null }, google_ads: { account_id: null, account_name: null }, ga4: { account_id: null, account_name: null }, woocommerce: { shop_url: null, api_key: null } },
+  extraction: { enabled: false, metrics: { meta: { spend: true, conversions: true, revenue: true, ctr: false, cpc: false }, google: { spend: true, conversions: true, ctr: false, cpc: false }, ga4: { sessions: true, conversion_rate: true, users: false }, woocommerce: { orders: true, revenue: true, aov: true } }, last_update: null, data: {} },
+  business_rules: { alert_if_roas_below: 4.0, alert_if_cpa_above: 30, seasonal_months: ["Dec", "Jan", "Feb"], max_daily_budget: 150 },
+  notes: ""
+}
+
+const PROFILE_TEMPLATE_LEADGEN = {
+  name: "",
+  vertical: "leadgen",
+  kpis: { primary: "CPA", cpa_max: 25, lead_value_avg: 150, closing_rate: 12, budget_monthly: 3000 },
+  leadgen: { sales_cycle_days: 30, closing_rate: 12 },
+  accounts: { meta: { account_id: null, account_name: null }, google_ads: { account_id: null, account_name: null }, ga4: { account_id: null, account_name: null } },
+  extraction: { enabled: false, metrics: { meta: { spend: true, conversions: true, ctr: false, cpc: false }, google: { spend: true, conversions: true, ctr: false, cpc: false }, ga4: { sessions: true, conversion_rate: true, users: false } }, last_update: null, data: {} },
+  business_rules: { alert_if_cpa_above: 25, seasonal_months: [], max_daily_budget: 100 },
+  notes: ""
+}
+
+const CLIENTS_BASE = [
+  { id: "paimun", name: "Paimun Vida Natural", vertical: "ecommerce" },
+  { id: "mrclick", name: "MrClick Chile", vertical: "ecommerce" },
+  { id: "skinology", name: "Skinology", vertical: "ecommerce" },
+  { id: "pdpaola", name: "PDPAOLA Chile", vertical: "ecommerce" },
+  { id: "superzoo", name: "Superzoo", vertical: "leadgen" },
+  { id: "nahmias", name: "Constructora Nahmias", vertical: "leadgen" },
+  { id: "morenclinica", name: "Clínica Morén", vertical: "leadgen" }
+]
+
+const WINDSOR_ACCOUNTS = {
+  meta: [
+    { id: "1727276644825511", name: "Suzuval" },
+    { id: "797882298782641", name: "Skinology Tarjeta Credito" },
+    { id: "1256044226296652", name: "MOREN" },
+    { id: "811969909144405", name: "CP - Mr Click Chile" },
+    { id: "1996085000888457", name: "PDPAOLA CHILE" },
+    { id: "34866045836344134", name: "ANDA.CL" }
+  ],
+  google_ads: [
+    { id: "349-313-2594", name: "ANDA.CL" },
+    { id: "700-007-5174", name: "SuperZoo" },
+    { id: "755-986-1786", name: "Skinology" },
+    { id: "598-125-8635", name: "Suzuval" },
+    { id: "804-295-7748", name: "PDPAOLA CHILE" },
+    { id: "771-109-1192", name: "PAIMUN" }
+  ],
+  ga4: [
+    { id: "280995331", name: "Mr Click Chile - GA4" },
+    { id: "426805145", name: "skinology.cl" },
+    { id: "460789793", name: "Anda" }
+  ]
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WINDSOR.AI API
+// ═══════════════════════════════════════════════════════════════
+
+async function loadConfig(){
+  try {
+    const response = await fetch('config.json')
+    if(!response.ok) throw new Error('config.json not found')
+    const config = await response.json()
+    WINDSOR_CONFIG.api_key = config.windsor_api_key
+    WINDSOR_CONFIG.base_url = config.windsor_base_url || "https://api.windsor.ai/v1"
+    
+    if(WINDSOR_CONFIG.api_key === "REEMPLAZA_ESTO_CON_TU_API_KEY_DE_WINDSOR"){
+      console.warn("⚠️ Windsor API key not configured")
+      return false
+    }
+    return true
+  } catch(e){
+    console.warn("⚠️ config.json not found", e)
+    return false
+  }
+}
+
+async function getWindsorData(connector, accountId, fields, datePreset = "last_30d"){
+  try {
+    // Detecta si está en producción (Vercel) o local
+    const backendUrl = window.location.hostname === 'localhost' 
+      ? 'http://localhost:5000'
+      : 'https://sunrise-intelligence-api.railway.app' // Railway URL
+    
+    const url = new URL(`${backendUrl}/api/windsor/data`)
+    url.searchParams.append('connector', connector)
+    url.searchParams.append('account_id', accountId)
+    url.searchParams.append('fields', fields.join(','))
+    url.searchParams.append('date_preset', datePreset)
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    })
+
+    if(!response.ok){
+      const error = await response.json()
+      throw new Error(error.error || `API error: ${response.status}`)
+    }
+
+    return await response.json()
+  } catch(error){
+    console.error('Windsor API error:', error)
+    throw error
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATE MANAGEMENT
+// ═══════════════════════════════════════════════════════════════
+
 function loadState(){
   const stored = localStorage.getItem("sunrise_state")
-  if(stored){
-    try{ state = {...state, ...JSON.parse(stored)} }
-    catch(e){ console.warn("Error loading state:", e) }
-  }
+  if(stored) try{ state = {...state, ...JSON.parse(stored)} }catch(e){}
 
-  const storedProfiles = localStorage.getItem("sunrise_profiles")
-  if(storedProfiles){
-    try{ state.profiles = JSON.parse(storedProfiles) }
-    catch(e){ console.warn("Error loading profiles:", e) }
-  }
+  const profiles = localStorage.getItem("sunrise_profiles")
+  if(profiles) try{ state.profiles = JSON.parse(profiles) }catch(e){}
 
   CLIENTS_BASE.forEach(c => {
     if(!state.profiles[c.id]){
@@ -264,13 +254,6 @@ function loadState(){
 function saveState(){
   localStorage.setItem("sunrise_state", JSON.stringify({nav: state.nav, tab: state.tab, clientId: state.clientId}))
   localStorage.setItem("sunrise_profiles", JSON.stringify(state.profiles))
-  showSaveIndicator()
-}
-
-function showSaveIndicator(){
-  const el = document.getElementById("saveIndicator")
-  el.classList.add("show")
-  setTimeout(() => el.classList.remove("show"), 2000)
 }
 
 function getClient(){ return state.profiles[state.clientId] }
@@ -278,9 +261,34 @@ function selectClient(id){ if(!id) return; state.clientId = id; state.tab = stat
 function setNav(nav){ state.nav = nav; state.tab = nav === "dashboard" ? "overview" : "profile"; saveState(); render() }
 function setTab(tab){ state.tab = tab; saveState(); render() }
 
+function createNewClient(){
+  const name = prompt("Nombre del cliente:")
+  if(!name) return
+  
+  const vertical = confirm("¿Es Ecommerce? (OK=sí, Cancel=Lead Gen)")
+  const clientId = "client_" + Date.now()
+  const template = vertical ? PROFILE_TEMPLATE_ECOMMERCE : PROFILE_TEMPLATE_LEADGEN
+  
+  state.profiles[clientId] = {...template, id: clientId, name: name}
+  CLIENTS_BASE.push({ id: clientId, name: name, vertical: vertical ? "ecommerce" : "leadgen" })
+  
+  state.clientId = clientId
+  state.tab = "profile"
+  saveState()
+  render()
+  alert(`✓ Cliente "${name}" creado!`)
+}
+
 // ═══════════════════════════════════════════════════════════════
 // RENDERING
 // ═══════════════════════════════════════════════════════════════
+
+function render(){
+  renderSidebar()
+  renderTopbar()
+  renderTabs()
+  renderContent()
+}
 
 function renderSidebar(){
   const selector = document.getElementById("clientSelector")
@@ -289,44 +297,30 @@ function renderSidebar(){
   ).join("")
 }
 
+function renderTopbar(){
+  const client = getClient()
+  document.getElementById("topbarTitle").textContent = client ? client.name : "Selecciona un cliente"
+  const badge = document.getElementById("topbarBadge")
+  if(client){
+    badge.textContent = client.vertical.toUpperCase()
+    badge.style.background = client.vertical === "ecommerce" ? "#dbeafe" : "#ede9fe"
+    badge.style.color = client.vertical === "ecommerce" ? "#1e40af" : "#6d28d9"
+  } else {
+    badge.textContent = ""
+  }
+}
+
 function renderTabs(){
   const client = getClient()
   if(!client){ document.getElementById("tabs").innerHTML = ""; return }
 
-  let tabs = []
-  if(state.nav === "dashboard"){
-    tabs = [
-      { id: "overview", label: "Overview" },
-      { id: "media", label: "Media Planning" },
-      { id: "social", label: "Social" }
-    ]
-    if(client.vertical === "ecommerce") tabs.push({ id: "product", label: "Productos" })
-    else tabs.push({ id: "leads", label: "Lead Quality" })
-    tabs.push({ id: "analytics", label: "Analytics" })
-  } else {
-    tabs = [
-      { id: "profile", label: "Perfil" },
-      { id: "mappings", label: "Mappings" }
-    ]
-  }
+  let tabs = state.nav === "dashboard" 
+    ? [{id:"overview",label:"Overview"},{id:"media",label:"Media"},{id:"social",label:"Social"}]
+    : [{id:"profile",label:"Perfil"},{id:"mappings",label:"Mappings"}]
 
   document.getElementById("tabs").innerHTML = tabs.map(t =>
     `<button class="tab ${state.tab === t.id ? "a" : ""}" onclick="setTab('${t.id}')">${t.label}</button>`
   ).join("")
-}
-
-function renderTopbar(){
-  const client = getClient()
-  if(!client){
-    document.getElementById("topbarTitle").textContent = "Selecciona un cliente"
-    document.getElementById("topbarBadge").textContent = ""
-    return
-  }
-
-  document.getElementById("topbarTitle").textContent = client.name
-  const badge = document.getElementById("topbarBadge")
-  badge.textContent = client.vertical.toUpperCase()
-  badge.className = `topbar-badge ${client.vertical}`
 }
 
 function renderContent(){
@@ -334,323 +328,112 @@ function renderContent(){
   const content = document.getElementById("content")
 
   if(!client){
-    content.innerHTML = `<div class="card" style="text-align:center;padding:40px"><div style="font-size:18px;font-weight:700;color:#999;margin-bottom:10px">👆 Selecciona un cliente</div><div style="font-size:12px;color:#bbb">Elige un cliente del menú para empezar</div></div>`
+    content.innerHTML = `<div class="card"><div style="text-align:center;padding:40px;color:#999"><div style="font-size:16px;font-weight:700">👆 Selecciona un cliente</div></div></div>`
     return
   }
 
-  if(state.nav === "dashboard"){
-    if(state.tab === "overview") renderDashboardOverview(client, content)
-    else if(state.tab === "media") renderMediaPlanning(client, content)
-    else if(state.tab === "social") renderSocial(client, content)
-    else if(state.tab === "product") renderProducts(client, content)
-    else if(state.tab === "leads") renderLeads(client, content)
-    else if(state.tab === "analytics") renderAnalytics(client, content)
-  } else {
-    if(state.tab === "profile") renderProfile(client, content)
-    else if(state.tab === "mappings") renderMappings(client, content)
-  }
-}
+  if(state.nav === "dashboard" && state.tab === "overview"){
+    const kpis = client.kpis
+    const data = client.extraction?.data || {}
+    let html = `<div class="card"><div class="card-title">KPIs (Últimos 30d)</div><div class="kpis-grid">`
+    
+    html += `<div class="kpi"><div class="kpi-label">Budget</div><div class="kpi-value">$${kpis.budget_monthly}</div></div>`
+    
+    if(data.meta){
+      html += `<div class="kpi"><div class="kpi-label">Meta Spend</div><div class="kpi-value">$${Number(data.meta.spend || 0).toFixed(0)}</div></div>`
+    }
+    if(data.google){
+      html += `<div class="kpi"><div class="kpi-label">Google Spend</div><div class="kpi-value">$${Number(data.google.spend || 0).toFixed(0)}</div></div>`
+    }
+    
+    html += `</div><div class="alert alert-warning"><span>📊</span><span>Datos de Windsor.ai (últimos 30d)</span></div></div>`
+    
+    if(client.accounts?.meta?.account_id || client.accounts?.google_ads?.account_id){
+      html += `<div class="card"><div class="card-title">Cuentas Vinculadas</div><div style="display:flex;gap:8px;flex-wrap:wrap">`
+      if(client.accounts?.meta?.account_id) html += `<div class="account-tag">✓ Meta: ${client.accounts.meta.account_name}</div>`
+      if(client.accounts?.google_ads?.account_id) html += `<div class="account-tag">✓ Google: ${client.accounts.google_ads.account_name}</div>`
+      html += `</div></div>`
+    }
 
-function renderDashboardOverview(client, container){
-  const kpis = client.kpis
-  const isEcommerce = client.vertical === "ecommerce"
-  const extractedData = client.extraction?.data || {}
-
-  let html = `
-    <div class="card">
-      <div class="card-title">KPIs Principales (Últimos 30 días)</div>
-      <div class="kpis-grid">
-        <div class="kpi">
-          <div class="kpi-label">Budget Mensual</div>
-          <div class="kpi-value">$${kpis.budget_monthly.toLocaleString()}</div>
+    content.innerHTML = html
+  } else if(state.nav === "admin" && state.tab === "profile"){
+    const isEcommerce = client.vertical === "ecommerce"
+    const accounts = client.accounts || {}
+    
+    let html = `
+      <div class="card">
+        <div class="card-title">Configuración</div>
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" value="${client.name}" onchange="updateField('name', this.value)">
         </div>
-  `
-
-  if(extractedData.meta){
-    html += `
-      <div class="kpi">
-        <div class="kpi-label">Meta Spend</div>
-        <div class="kpi-value">$${Number(extractedData.meta.spend).toFixed(0)}</div>
-        <div class="kpi-subtitle">${extractedData.meta.conversions || "—"} conversiones</div>
-      </div>
-    `
-  }
-
-  if(extractedData.google){
-    html += `
-      <div class="kpi">
-        <div class="kpi-label">Google Spend</div>
-        <div class="kpi-value">$${Number(extractedData.google.spend).toFixed(0)}</div>
-        <div class="kpi-subtitle">${extractedData.google.conversions || "—"} conversiones</div>
-      </div>
-    `
-  }
-
-  if(extractedData.woocommerce){
-    html += `
-      <div class="kpi">
-        <div class="kpi-label">WooCommerce Revenue</div>
-        <div class="kpi-value">$${Number(extractedData.woocommerce.revenue).toFixed(0)}</div>
-        <div class="kpi-subtitle">${extractedData.woocommerce.orders} órdenes</div>
-      </div>
-    `
-  }
-
-  if(!extractedData.meta && !extractedData.google){
-    html += `
-      <div class="kpi" style="grid-column:span 2;opacity:.5">
-        <div class="kpi-label">Datos no disponibles</div>
-        <div style="font-size:11px;color:#999;margin-top:6px">Vincul cuentas y actualiza datos</div>
-      </div>
-    `
-  }
-
-  html += `
-      </div>
-    </div>
-
-    <div class="alert alert-warning">
-      <span>📊</span>
-      <span>Datos en vivo desde Windsor.ai (últimas 24 horas)</span>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Cuentas Vinculadas</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        ${client.accounts?.meta?.account_id ? `<div class="account-tag" style="background:var(--primary)">✓ Meta: ${client.accounts.meta.account_name}</div>` : ""}
-        ${client.accounts?.google_ads?.account_id ? `<div class="account-tag" style="background:#4285F4">✓ Google: ${client.accounts.google_ads.account_name}</div>` : ""}
-        ${client.accounts?.ga4?.account_id ? `<div class="account-tag" style="background:#EA8208">✓ GA4: ${client.accounts.ga4.account_name}</div>` : ""}
-        ${!client.accounts?.meta?.account_id && !client.accounts?.google_ads?.account_id ? `<div style="color:#999;font-size:11px">Sin cuentas vinculadas</div>` : ""}
-      </div>
-    </div>
-  `
-
-  container.innerHTML = html
-}
-
-function renderMediaPlanning(client, container){
-  container.innerHTML = `<div class="card"><div class="card-title">Media Planning</div><div style="padding:20px;text-align:center;color:#999"><div style="font-size:14px;margin-bottom:10px">📊 Análisis por canal</div></div></div>`
-}
-
-function renderSocial(client, container){
-  container.innerHTML = `<div class="card"><div class="card-title">Social & Community</div><div style="padding:20px;text-align:center;color:#999"><div style="font-size:14px;margin-bottom:10px">📱 Engagement y reach</div></div></div>`
-}
-
-function renderProducts(client, container){
-  const products = client.ecommerce?.cogs_products || {}
-  let html = `<div class="card"><div class="card-title">Productos & COGS</div><table class="table"><thead><tr><th>Producto</th><th>COGS</th></tr></thead><tbody>`
-  Object.entries(products).forEach(([name, cogs]) => {
-    html += `<tr><td>${name}</td><td>$${cogs}</td></tr>`
-  })
-  html += `</tbody></table></div>`
-  container.innerHTML = html
-}
-
-function renderLeads(client, container){
-  container.innerHTML = `<div class="card"><div class="card-title">Lead Quality Analysis</div><div style="padding:20px;text-align:center;color:#999">Lead scoring y quality</div></div>`
-}
-
-function renderAnalytics(client, container){
-  container.innerHTML = `<div class="card"><div class="card-title">Analytics & Attribution</div><div style="padding:20px;text-align:center;color:#999">Funnel y atribución multi-touch</div></div>`
-}
-
-function renderProfile(client, container){
-  const isEcommerce = client.vertical === "ecommerce"
-  const extraction = client.extraction || {}
-  const accounts = client.accounts || {}
-
-  let html = `
-    <div class="card">
-      <div class="card-title">Configuración del Cliente</div>
-
-      <div class="form-group">
-        <label>Nombre</label>
-        <input type="text" value="${client.name}" onchange="updateClientField('name', this.value)">
-      </div>
-
-      <div class="form-group">
-        <label>Tipo de Cliente</label>
-        <select onchange="changeVertical(this.value)">
-          <option value="ecommerce" ${isEcommerce ? "selected" : ""}>Ecommerce</option>
-          <option value="leadgen" ${!isEcommerce ? "selected" : ""}>Lead Gen</option>
-        </select>
-      </div>
-
-      <hr style="margin:20px 0;border:none;border-top:1px solid var(--border)">
-
-      <div class="card-title">🔗 Vincular Cuentas — Windsor.ai</div>
-
-      <div style="background:#f9f9f9;padding:16px;border-radius:6px;margin-bottom:16px">
-        <div style="margin-bottom:14px">
-          <div style="font-weight:600;font-size:11px;color:#666;margin-bottom:8px">META ADS</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            ${accounts.meta?.account_id ? `
-              <div class="account-tag" style="background:var(--primary)">
-                ✓ ${accounts.meta.account_name}
-                <button onclick="selectAccount('meta', null, null)" style="background:rgba(255,255,255,0.3);border:none;color:#fff;padding:2px 6px;border-radius:2px;cursor:pointer;font-size:10px">✕</button>
-              </div>
-            ` : `
-              <select onchange="if(this.value) selectAccount('meta', this.value, this.options[this.selectedIndex].text)" style="padding:8px;border:1px solid var(--border);border-radius:4px;font-size:11px;background:#fff">
-                <option value="">— Seleccionar cuenta Meta —</option>
-                ${WINDSOR_ACCOUNTS.meta.map(acc => `<option value="${acc.id}">${acc.name}</option>`).join("")}
-              </select>
-            `}
+        <div class="form-group">
+          <label>Vertical</label>
+          <select onchange="changeVertical(this.value)">
+            <option value="ecommerce" ${isEcommerce ? "selected" : ""}>Ecommerce</option>
+            <option value="leadgen" ${!isEcommerce ? "selected" : ""}>Lead Gen</option>
+          </select>
+        </div>
+        
+        <hr style="margin:20px 0;border:none;border-top:1px solid var(--border)">
+        
+        <div class="card-title">🔗 Vincular Cuentas Windsor</div>
+        <div style="background:#f9f9f9;padding:16px;border-radius:6px;margin-bottom:16px">
+          <div style="margin-bottom:14px">
+            <div style="font-weight:600;font-size:11px;color:#666;margin-bottom:8px">META ADS</div>
+            <select onchange="selectAccount('meta', this.value, this.options[this.selectedIndex].text)">
+              <option value="">— Seleccionar Meta —</option>
+              ${WINDSOR_ACCOUNTS.meta.map(acc => `<option value="${acc.id}" ${accounts.meta?.account_id === acc.id ? "selected" : ""}>${acc.name}</option>`).join("")}
+            </select>
+          </div>
+          
+          <div style="margin-bottom:14px">
+            <div style="font-weight:600;font-size:11px;color:#666;margin-bottom:8px">GOOGLE ADS</div>
+            <select onchange="selectAccount('google_ads', this.value, this.options[this.selectedIndex].text)">
+              <option value="">— Seleccionar Google —</option>
+              ${WINDSOR_ACCOUNTS.google_ads.map(acc => `<option value="${acc.id}" ${accounts.google_ads?.account_id === acc.id ? "selected" : ""}>${acc.name}</option>`).join("")}
+            </select>
+          </div>
+          
+          <div style="margin-bottom:14px">
+            <div style="font-weight:600;font-size:11px;color:#666;margin-bottom:8px">GA4</div>
+            <select onchange="selectAccount('ga4', this.value, this.options[this.selectedIndex].text)">
+              <option value="">— Seleccionar GA4 —</option>
+              ${WINDSOR_ACCOUNTS.ga4.map(acc => `<option value="${acc.id}" ${accounts.ga4?.account_id === acc.id ? "selected" : ""}>${acc.name}</option>`).join("")}
+            </select>
           </div>
         </div>
-
-        <div style="margin-bottom:14px">
-          <div style="font-weight:600;font-size:11px;color:#666;margin-bottom:8px">GOOGLE ADS</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            ${accounts.google_ads?.account_id ? `
-              <div class="account-tag" style="background:#4285F4">
-                ✓ ${accounts.google_ads.account_name}
-                <button onclick="selectAccount('google_ads', null, null)" style="background:rgba(255,255,255,0.3);border:none;color:#fff;padding:2px 6px;border-radius:2px;cursor:pointer;font-size:10px">✕</button>
-              </div>
-            ` : `
-              <select onchange="if(this.value) selectAccount('google_ads', this.value, this.options[this.selectedIndex].text)" style="padding:8px;border:1px solid var(--border);border-radius:4px;font-size:11px;background:#fff">
-                <option value="">— Seleccionar cuenta Google —</option>
-                ${WINDSOR_ACCOUNTS.google_ads.map(acc => `<option value="${acc.id}">${acc.name}</option>`).join("")}
-              </select>
-            `}
-          </div>
+        
+        <hr style="margin:20px 0;border:none;border-top:1px solid var(--border)">
+        
+        <div class="card-title">🔄 Extraer Datos</div>
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px;font-weight:600">
+            <input type="checkbox" ${client.extraction?.enabled ? "checked" : ""} onchange="updateField('extraction.enabled', this.checked)">
+            Extraer datos de este cliente
+          </label>
         </div>
-
-        <div style="margin-bottom:14px">
-          <div style="font-weight:600;font-size:11px;color:#666;margin-bottom:8px">GA4</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            ${accounts.ga4?.account_id ? `
-              <div class="account-tag" style="background:#EA8208">
-                ✓ ${accounts.ga4.account_name}
-                <button onclick="selectAccount('ga4', null, null)" style="background:rgba(255,255,255,0.3);border:none;color:#fff;padding:2px 6px;border-radius:2px;cursor:pointer;font-size:10px">✕</button>
-              </div>
-            ` : `
-              <select onchange="if(this.value) selectAccount('ga4', this.value, this.options[this.selectedIndex].text)" style="padding:8px;border:1px solid var(--border);border-radius:4px;font-size:11px;background:#fff">
-                <option value="">— Seleccionar GA4 —</option>
-                ${WINDSOR_ACCOUNTS.ga4.map(acc => `<option value="${acc.id}">${acc.name}</option>`).join("")}
-              </select>
-            `}
-          </div>
-        </div>
-
-        ${isEcommerce ? `
-          <div>
-            <div style="font-weight:600;font-size:11px;color:#666;margin-bottom:8px">WOOCOMMERCE</div>
-            <div class="form-row">
-              <div class="form-group" style="margin-bottom:0">
-                <label style="font-size:9px">URL de tienda</label>
-                <input type="text" placeholder="https://tienda.com" value="${accounts.woocommerce?.shop_url || ""}" onchange="updateClientField('accounts.woocommerce.shop_url', this.value)" style="font-size:11px">
-              </div>
-              <div class="form-group" style="margin-bottom:0">
-                <label style="font-size:9px">API Key</label>
-                <input type="password" placeholder="••••••••••" value="${accounts.woocommerce?.api_key || ""}" onchange="updateClientField('accounts.woocommerce.api_key', this.value)" style="font-size:11px">
-              </div>
-            </div>
+        
+        ${client.extraction?.enabled ? `
+          <div style="background:#f9f9f9;padding:16px;border-radius:6px;margin-bottom:16px">
+            <button class="btn btn-primary" onclick="updateWindsorData()" style="width:100%">🔄 Sincronizar con Windsor</button>
+            ${client.extraction.last_update ? `<div style="font-size:10px;color:#999;margin-top:8px">Última sync: ${client.extraction.last_update}</div>` : ""}
           </div>
         ` : ""}
       </div>
-
-      <hr style="margin:20px 0;border:none;border-top:1px solid var(--border)">
-
-      <div class="card-title">🔄 Extracción de Datos — Windsor.ai</div>
-
-      <div class="form-group">
-        <label style="display:flex;align-items:center;gap:8px;font-weight:600">
-          <input type="checkbox" ${extraction.enabled ? "checked" : ""} onchange="updateClientField('extraction.enabled', this.checked)">
-          Extraer datos de este cliente
-        </label>
-      </div>
-
-      ${extraction.enabled ? `
-        <div style="background:#f9f9f9;padding:16px;border-radius:6px;margin-bottom:16px">
-          <div class="card-title" style="margin-bottom:12px">Métricas a traer</div>
-
-          <div style="margin-bottom:14px">
-            <div style="font-weight:600;font-size:11px;color:#666;margin-bottom:8px">META ADS</div>
-            <div class="checkbox-group">
-              <label><input type="checkbox" ${extraction.metrics?.meta?.spend !== false ? "checked" : ""} onchange="updateMetric('meta', 'spend', this.checked)"> Spend (core)</label>
-              <label><input type="checkbox" ${extraction.metrics?.meta?.conversions !== false ? "checked" : ""} onchange="updateMetric('meta', 'conversions', this.checked)"> Conversions (core)</label>
-              <label><input type="checkbox" ${extraction.metrics?.meta?.revenue !== false ? "checked" : ""} onchange="updateMetric('meta', 'revenue', this.checked)"> Revenue (core)</label>
-              <label><input type="checkbox" ${extraction.metrics?.meta?.ctr ? "checked" : ""} onchange="updateMetric('meta', 'ctr', this.checked)"> CTR</label>
-              <label><input type="checkbox" ${extraction.metrics?.meta?.cpc ? "checked" : ""} onchange="updateMetric('meta', 'cpc', this.checked)"> CPC</label>
-            </div>
-          </div>
-
-          <div style="margin-bottom:14px">
-            <div style="font-weight:600;font-size:11px;color:#666;margin-bottom:8px">GOOGLE ADS</div>
-            <div class="checkbox-group">
-              <label><input type="checkbox" ${extraction.metrics?.google?.spend !== false ? "checked" : ""} onchange="updateMetric('google', 'spend', this.checked)"> Spend (core)</label>
-              <label><input type="checkbox" ${extraction.metrics?.google?.conversions !== false ? "checked" : ""} onchange="updateMetric('google', 'conversions', this.checked)"> Conversions (core)</label>
-              <label><input type="checkbox" ${extraction.metrics?.google?.ctr ? "checked" : ""} onchange="updateMetric('google', 'ctr', this.checked)"> CTR</label>
-            </div>
-          </div>
-
-          <div style="margin-bottom:14px">
-            <div style="font-weight:600;font-size:11px;color:#666;margin-bottom:8px">GA4</div>
-            <div class="checkbox-group">
-              <label><input type="checkbox" ${extraction.metrics?.ga4?.sessions !== false ? "checked" : ""} onchange="updateMetric('ga4', 'sessions', this.checked)"> Sessions (core)</label>
-              <label><input type="checkbox" ${extraction.metrics?.ga4?.conversion_rate !== false ? "checked" : ""} onchange="updateMetric('ga4', 'conversion_rate', this.checked)"> Conversion Rate (core)</label>
-            </div>
-          </div>
-
-          ${isEcommerce ? `
-            <div style="margin-bottom:14px">
-              <div style="font-weight:600;font-size:11px;color:#666;margin-bottom:8px">WOOCOMMERCE</div>
-              <div class="checkbox-group">
-                <label><input type="checkbox" ${extraction.metrics?.woocommerce?.orders !== false ? "checked" : ""} onchange="updateMetric('woocommerce', 'orders', this.checked)"> Orders (core)</label>
-                <label><input type="checkbox" ${extraction.metrics?.woocommerce?.revenue !== false ? "checked" : ""} onchange="updateMetric('woocommerce', 'revenue', this.checked)"> Revenue (core)</label>
-                <label><input type="checkbox" ${extraction.metrics?.woocommerce?.aov !== false ? "checked" : ""} onchange="updateMetric('woocommerce', 'aov', this.checked)"> AOV (core)</label>
-              </div>
-            </div>
-          ` : ""}
-
-          <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:14px">
-            <button class="btn btn-primary" id="btnUpdateWindsor" onclick="updateWindsorData()" style="width:100%">🔄 Sincronizar con Windsor</button>
-            ${extraction.last_update ? `<div style="font-size:10px;color:#999;margin-top:8px">Última sincronización: ${extraction.last_update}</div>` : ""}
-          </div>
-        </div>
-      ` : ""}
-
-      <hr style="margin:20px 0;border:none;border-top:1px solid var(--border)">
-
-      <div class="card-title">KPIs Principales</div>
-
-      <div class="form-group">
-        <label>Métrica Principal</label>
-        <select onchange="updateClientField('kpis.primary', this.value)">
-          ${isEcommerce ? `<option value="ROAS" ${client.kpis.primary === 'ROAS' ? 'selected' : ''}>ROAS</option>` : `<option value="CPA" ${client.kpis.primary === 'CPA' ? 'selected' : ''}>CPA</option>`}
-        </select>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label>${isEcommerce ? 'ROAS Mínimo' : 'CPA Máximo'}</label>
-          <input type="number" step="0.1" value="${isEcommerce ? client.kpis.roas_min : client.kpis.cpa_max}" onchange="updateClientField('kpis.${isEcommerce ? 'roas_min' : 'cpa_max'}', this.value)">
-        </div>
-        <div class="form-group">
-          <label>Budget Mensual ($)</label>
-          <input type="number" value="${client.kpis.budget_monthly}" onchange="updateClientField('kpis.budget_monthly', this.value)">
-        </div>
-      </div>
-
-      <div class="alert alert-success" style="margin-top:20px">
-        <span>✓</span>
-        <span>Se guarda automáticamente cada cambio</span>
-      </div>
-    </div>
-  `
-
-  container.innerHTML = html
-}
-
-function renderMappings(client, container){
-  container.innerHTML = `<div class="card"><div class="card-title">Mapeo de Campañas</div><div style="padding:20px;color:#999">Sección en desarrollo</div></div>`
+    `
+    
+    content.innerHTML = html
+  } else {
+    content.innerHTML = `<div class="card"><div class="card-title">${state.tab}</div><div style="padding:20px;color:#999">Sección en desarrollo</div></div>`
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════════════════════
 
-function updateClientField(path, value){
+function updateField(path, value){
   const client = getClient()
   const keys = path.split(".")
   let obj = client
@@ -675,161 +458,51 @@ function changeVertical(vertical){
 function selectAccount(source, accountId, accountName){
   const client = getClient()
   if(!client.accounts) client.accounts = {}
-  client.accounts[source] = { account_id: accountId, account_name: accountName }
+  client.accounts[source] = { account_id: accountId || null, account_name: accountName || null }
   saveState()
   renderContent()
 }
 
-function updateMetric(source, metric, checked){
-  const client = getClient()
-  if(!client.extraction) client.extraction = {}
-  if(!client.extraction.metrics) client.extraction.metrics = {}
-  if(!client.extraction.metrics[source]) client.extraction.metrics[source] = {}
-  client.extraction.metrics[source][metric] = checked
-  saveState()
-}
-
 async function updateWindsorData(){
   const client = getClient()
-  if(!client.extraction?.enabled){
-    alert("Habilita la extracción de datos primero")
-    return
-  }
-
   if(!client.accounts?.meta?.account_id && !client.accounts?.google_ads?.account_id){
-    alert("Vincula primero al menos una cuenta (Meta o Google)")
+    alert("Vincula al menos una cuenta")
     return
   }
-
-  const btn = document.getElementById("btnUpdateWindsor")
-  if(btn) btn.disabled = true
-  if(btn) btn.textContent = "⏳ Sincronizando..."
 
   try {
     const data = {}
-
-    // Traer datos de META ADS (si está configurado)
-    if(client.accounts?.meta?.account_id && client.extraction.metrics?.meta){
+    
+    if(client.accounts?.meta?.account_id){
       try {
-        const metaFields = []
-        if(client.extraction.metrics.meta.spend) metaFields.push("spend")
-        if(client.extraction.metrics.meta.conversions) metaFields.push("conversions")
-        if(client.extraction.metrics.meta.revenue) metaFields.push("revenue")
-        if(client.extraction.metrics.meta.ctr) metaFields.push("ctr")
-        if(client.extraction.metrics.meta.cpc) metaFields.push("cpc")
-        
-        if(metaFields.length > 0){
-          const response = await sendPrompt(`
-            Trae datos de Windsor.ai para Meta Ads:
-            - Account ID: ${client.accounts.meta.account_id}
-            - Campos: ${metaFields.join(", ")}
-            - Período: últimos 30 días
-            - Usa la función Windsor.ai:get_data con date_preset="last_30d"
-            
-            Devuelve SOLO los datos en formato JSON, sin explicaciones.
-          `)
-          
-          // El response es texto, parsea como JSON
-          try {
-            data.meta = JSON.parse(response.split("```json")[1]?.split("```")[0] || response)
-          } catch(e){
-            data.meta = { error: "No se pudo parsear respuesta" }
-          }
-        }
-      } catch(e){
-        console.warn("Error trayendo datos Meta:", e)
-        data.meta = null
-      }
+        const result = await getWindsorData('facebook', client.accounts.meta.account_id, ['spend', 'conversions'])
+        data.meta = result[0] || result
+      } catch(e) { data.meta = {error: e.message} }
     }
-
-    // Traer datos de GOOGLE ADS (si está configurado)
-    if(client.accounts?.google_ads?.account_id && client.extraction.metrics?.google){
+    
+    if(client.accounts?.google_ads?.account_id){
       try {
-        const googleFields = []
-        if(client.extraction.metrics.google.spend) googleFields.push("spend")
-        if(client.extraction.metrics.google.conversions) googleFields.push("conversions")
-        if(client.extraction.metrics.google.ctr) googleFields.push("ctr")
-        if(client.extraction.metrics.google.cpc) googleFields.push("cpc")
-        
-        if(googleFields.length > 0){
-          const response = await sendPrompt(`
-            Trae datos de Windsor.ai para Google Ads:
-            - Account ID: ${client.accounts.google_ads.account_id}
-            - Campos: ${googleFields.join(", ")}
-            - Período: últimos 30 días
-            - Usa la función Windsor.ai:get_data con date_preset="last_30d"
-            
-            Devuelve SOLO los datos en formato JSON, sin explicaciones.
-          `)
-          
-          try {
-            data.google = JSON.parse(response.split("```json")[1]?.split("```")[0] || response)
-          } catch(e){
-            data.google = { error: "No se pudo parsear respuesta" }
-          }
-        }
-      } catch(e){
-        console.warn("Error trayendo datos Google:", e)
-        data.google = null
-      }
-    }
-
-    // Traer datos de GA4 (si está configurado)
-    if(client.accounts?.ga4?.account_id && client.extraction.metrics?.ga4){
-      try {
-        const ga4Fields = []
-        if(client.extraction.metrics.ga4.sessions) ga4Fields.push("sessions")
-        if(client.extraction.metrics.ga4.conversion_rate) ga4Fields.push("conversion_rate")
-        
-        if(ga4Fields.length > 0){
-          const response = await sendPrompt(`
-            Trae datos de Windsor.ai para GA4:
-            - Account ID: ${client.accounts.ga4.account_id}
-            - Campos: ${ga4Fields.join(", ")}
-            - Período: últimos 30 días
-            - Usa la función Windsor.ai:get_data con date_preset="last_30d"
-            
-            Devuelve SOLO los datos en formato JSON, sin explicaciones.
-          `)
-          
-          try {
-            data.ga4 = JSON.parse(response.split("```json")[1]?.split("```")[0] || response)
-          } catch(e){
-            data.ga4 = { error: "No se pudo parsear respuesta" }
-          }
-        }
-      } catch(e){
-        console.warn("Error trayendo datos GA4:", e)
-        data.ga4 = null
-      }
+        const result = await getWindsorData('google_ads', client.accounts.google_ads.account_id, ['spend', 'conversions'])
+        data.google = result[0] || result
+      } catch(e) { data.google = {error: e.message} }
     }
 
     client.extraction.data = data
     client.extraction.last_update = new Date().toLocaleString("es-CL")
     saveState()
     renderContent()
-
-    if(btn) btn.textContent = "✓ Sincronizado"
-    setTimeout(() => {
-      if(btn) btn.textContent = "🔄 Sincronizar con Windsor"
-      if(btn) btn.disabled = false
-    }, 2000)
-
-  } catch(error) {
-    alert("Error: " + error.message)
-    if(btn) btn.textContent = "🔄 Sincronizar con Windsor"
-    if(btn) btn.disabled = false
+    alert("✓ Datos sincronizados")
+  } catch(e) {
+    alert("Error: " + e.message)
   }
 }
 
-function render(){
-  renderSidebar()
-  renderTopbar()
-  renderTabs()
-  renderContent()
-}
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
+  await loadConfig()
   loadState()
   if(!state.clientId && CLIENTS_BASE.length > 0){
     state.clientId = CLIENTS_BASE[0].id
